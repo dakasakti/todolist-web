@@ -1,0 +1,55 @@
+{{ define "index" }}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {{ template "_header" }}
+  </head>
+  <body class="bg-dark text-white">
+    {{ template "_navbar" }}
+    <div class="container">
+      <h2 class="my-3">Aplikasi Tasking</h2>
+      <a href="/posts/create" class="btn btn-primary">Create Task</a>
+      <table class="table caption-top text-white">
+        <caption>
+          List Task Users
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Description</th>
+            <th scope="col">Name</th>
+            <th scope="col">Deadline</th>
+            <th scope="col">Author</th>
+            <th scope="col">Status</th>
+            <th scope="col">Detail</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{ range $idx, $elem := .Data }}
+          <tr class="align-middle">
+            <th scope="row">{{ itterate $idx }}</th>
+            <td>{{ $elem.description }}</td>
+            <td>{{ $elem.name }}</td>
+            <td>{{ $elem.deadline }}</td>
+            <td>{{ $elem.author.fullname }}</td>
+            {{ if eq $elem.status "Done"}}
+            <td><button class="btn btn-success">{{ $elem.status }}</button></td>
+            {{ else }}
+            <td>
+              <form action="/posts/{{ $elem.id }}/mark" method="POST">
+                <button class="btn btn-warning">Mark is Done</button>
+              </form>
+            </td>
+            {{ end }}
+            <td>
+              <a href="/posts/{{ $elem.id }}/edit" class="btn btn-primary">Edit</a>
+            </td>
+          </tr>
+          {{ end }}
+        </tbody>
+      </table>
+    </div>
+    {{ template "_script" }}
+  </body>
+</html>
+{{ end }}
