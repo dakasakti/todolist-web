@@ -2,8 +2,6 @@ package main
 
 import (
 	"fmt"
-	"io"
-	"text/template"
 
 	"github.com/dakasakti/todolist-web/config"
 
@@ -16,6 +14,7 @@ import (
 
 	cs "github.com/dakasakti/todolist-web/services/client"
 	ps "github.com/dakasakti/todolist-web/services/post"
+	"github.com/dakasakti/todolist-web/services/renderer"
 	us "github.com/dakasakti/todolist-web/services/user"
 	"github.com/dakasakti/todolist-web/services/validation"
 
@@ -25,24 +24,6 @@ import (
 
 	"github.com/labstack/echo/v4"
 )
-
-type TemplateRenderer struct {
-	templates *template.Template
-}
-
-func (t *TemplateRenderer) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
-	if viewContext, isMap := data.(map[string]interface{}); isMap {
-		viewContext["reverse"] = c.Echo().Reverse
-	}
-
-	return t.templates.ExecuteTemplate(w, name, data)
-}
-
-var funcMap = template.FuncMap{
-	"itterate": func(n int) int {
-		return n + 1
-	},
-}
 
 func main() {
 	server := echo.New()
@@ -70,11 +51,7 @@ func main() {
 	routes.PostPath(server, postController)
 
 	// Register Renderer
-	renderer := &TemplateRenderer{
-		templates: template.Must(template.New("views/*.html").Funcs(funcMap).ParseGlob("views/*.html")),
-	}
-
-	server.Renderer = renderer
+	server.Renderer = renderer.NewRenderer()
 
 	// Client
 	clientModel := cm.NewClientModel()
