@@ -3,7 +3,7 @@ package repositories
 import (
 	"errors"
 
-	"github.com/dakasakti/postingan/entities"
+	"github.com/dakasakti/todolist-web/entities"
 
 	"gorm.io/gorm"
 )

@@ -1,4 +1,4 @@
-module github.com/dakasakti/postingan
+module github.com/dakasakti/todolist-web
 
 go 1.17
 

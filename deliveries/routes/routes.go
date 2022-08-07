@@ -3,8 +3,8 @@ package routes
 import (
 	"github.com/labstack/echo/v4"
 
-	ps "github.com/dakasakti/postingan/deliveries/controllers/post"
-	uc "github.com/dakasakti/postingan/deliveries/controllers/user"
+	ps "github.com/dakasakti/todolist-web/deliveries/controllers/post"
+	uc "github.com/dakasakti/todolist-web/deliveries/controllers/user"
 )
 
 func UserPath(e *echo.Echo, uc uc.UserController) {

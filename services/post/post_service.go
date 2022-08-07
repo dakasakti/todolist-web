@@ -3,9 +3,10 @@ package services
 import (
 	"errors"
 	"strconv"
+	"time"
 
-	"github.com/dakasakti/postingan/entities"
-	pm "github.com/dakasakti/postingan/repositories/post"
+	"github.com/dakasakti/todolist-web/entities"
+	pm "github.com/dakasakti/todolist-web/repositories/post"
 )
 
 type postService struct {
@@ -17,14 +18,19 @@ func NewPostService(pm pm.PostModel) *postService {
 }
 
 func (ps *postService) Register(user_id uint, data entities.PostRequest) error {
+	parseTime, err := time.Parse("2006-01-02", data.Deadline)
+	if err != nil {
+		return err
+	}
+
 	dataPost := entities.Post{
 		UserID:      user_id,
 		Description: data.Description,
 		Name:        data.Name,
-		Deadline:    data.Deadline,
+		Deadline:    parseTime.Format("02-01-2006"),
 	}
 
-	err := ps.Pm.Insert(dataPost)
+	err = ps.Pm.Insert(dataPost)
 	if err != nil {
 		if err.Error() == "Error 1452: Cannot add or update a child row: a foreign key constraint fails (`postingan`.`posts`, CONSTRAINT `fk_posts_post_type` FOREIGN KEY (`post_type_id`) REFERENCES `post_types` (`id`))" {
 			return errors.New("post_type_id not found")
@@ -64,6 +70,8 @@ func (ps *postService) GetById(id uint) (entities.Post, error) {
 		return data, err
 	}
 
+	parseTime, _ := time.Parse("02-01-2006", data.Deadline)
+	data.Deadline = parseTime.Format("2006-01-02")
 	return data, nil
 }
 
@@ -81,13 +89,18 @@ func (ps *postService) CheckUser(id uint, user_id uint) (entities.Post, error) {
 }
 
 func (ps *postService) UpdateById(id uint, data entities.PostUpdateRequest) error {
+	parseTime, err := time.Parse("2006-01-02", data.Deadline)
+	if err != nil {
+		return err
+	}
+
 	dataPost := entities.Post{
 		Description: data.Description,
 		Name:        data.Name,
-		Deadline:    data.Deadline,
+		Deadline:    parseTime.Format("02-01-2006"),
 	}
 
-	err := ps.Pm.Update(id, dataPost)
+	err = ps.Pm.Update(id, dataPost)
 	if err != nil {
 		return err
 	}

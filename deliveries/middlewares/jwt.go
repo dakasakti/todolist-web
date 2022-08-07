@@ -3,7 +3,7 @@ package middlewares
 import (
 	"time"
 
-	"github.com/dakasakti/postingan/constants"
+	"github.com/dakasakti/todolist-web/constants"
 
 	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"

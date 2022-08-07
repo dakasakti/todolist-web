@@ -1,6 +1,6 @@
 package services
 
-import "github.com/dakasakti/postingan/entities"
+import "github.com/dakasakti/todolist-web/entities"
 
 type PostService interface {
 	Register(user_id uint, data entities.PostRequest) error

@@ -3,8 +3,7 @@ package config
 import (
 	"fmt"
 
-	"github.com/dakasakti/postingan/entities"
-
+	"github.com/dakasakti/todolist-web/entities"
 	"github.com/labstack/gommon/log"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"

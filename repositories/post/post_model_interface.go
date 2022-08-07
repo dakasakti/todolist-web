@@ -1,6 +1,6 @@
 package repositories
 
-import "github.com/dakasakti/postingan/entities"
+import "github.com/dakasakti/todolist-web/entities"
 
 type PostModel interface {
 	Insert(data entities.Post) error

@@ -3,9 +3,9 @@ package services
 import (
 	"errors"
 
-	"github.com/dakasakti/postingan/deliveries/middlewares"
-	"github.com/dakasakti/postingan/entities"
-	um "github.com/dakasakti/postingan/repositories/user"
+	"github.com/dakasakti/todolist-web/deliveries/middlewares"
+	"github.com/dakasakti/todolist-web/entities"
+	um "github.com/dakasakti/todolist-web/repositories/user"
 
 	"golang.org/x/crypto/bcrypt"
 )

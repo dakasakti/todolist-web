@@ -1,10 +1,10 @@
 package controllers
 
 import (
-	"github.com/dakasakti/postingan/deliveries/helpers"
-	"github.com/dakasakti/postingan/entities"
-	ps "github.com/dakasakti/postingan/services/post"
-	"github.com/dakasakti/postingan/services/validation"
+	"github.com/dakasakti/todolist-web/deliveries/helpers"
+	"github.com/dakasakti/todolist-web/entities"
+	ps "github.com/dakasakti/todolist-web/services/post"
+	"github.com/dakasakti/todolist-web/services/validation"
 
 	"github.com/labstack/echo/v4"
 )
