@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"github.com/dakasakti/todolist-web/deliveries/helpers"
+	"github.com/dakasakti/todolist-web/deliveries/middlewares"
 	"github.com/dakasakti/todolist-web/entities"
 	ps "github.com/dakasakti/todolist-web/services/post"
 	"github.com/dakasakti/todolist-web/services/validation"
@@ -20,8 +21,7 @@ func NewPostController(ps ps.PostService, vs validation.Validation) *postControl
 
 func (pc *postController) Register(ctx echo.Context) error {
 	var data entities.PostRequest
-	// user_id := uint(middlewares.ExtractTokenUserId(ctx))
-	user_id := uint(1)
+	user_id := uint(middlewares.ExtractTokenUserId(ctx))
 
 	err := ctx.Bind(&data)
 	if err != nil {
@@ -113,8 +113,7 @@ func (pc *postController) GetById(ctx echo.Context) error {
 func (pc *postController) UpdateById(ctx echo.Context) error {
 	var data entities.PostUpdateRequest
 	param := ctx.Param("id")
-	// user_id := uint(middlewares.ExtractTokenUserId(ctx))
-	user_id := uint(1)
+	user_id := uint(middlewares.ExtractTokenUserId(ctx))
 
 	id, err := pc.Ps.CheckParamId(param)
 	if err != nil {
@@ -169,8 +168,7 @@ func (pc *postController) UpdateById(ctx echo.Context) error {
 
 func (pc *postController) UpdateMarkById(ctx echo.Context) error {
 	param := ctx.Param("id")
-	// user_id := uint(middlewares.ExtractTokenUserId(ctx))
-	user_id := uint(1)
+	user_id := uint(middlewares.ExtractTokenUserId(ctx))
 
 	id, err := pc.Ps.CheckParamId(param)
 	if err != nil {
@@ -208,8 +206,7 @@ func (pc *postController) UpdateMarkById(ctx echo.Context) error {
 
 func (pc *postController) DeleteById(ctx echo.Context) error {
 	param := ctx.Param("id")
-	// user_id := uint(middlewares.ExtractTokenUserId(ctx))
-	user_id := uint(1)
+	user_id := uint(middlewares.ExtractTokenUserId(ctx))
 
 	id, err := pc.Ps.CheckParamId(param)
 	if err != nil {

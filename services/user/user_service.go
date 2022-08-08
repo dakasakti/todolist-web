@@ -65,7 +65,7 @@ func (us *userService) Login(data entities.LoginRequest) (string, error) {
 		return "", errors.New("username or password is wrong")
 	}
 
-	result, err := middlewares.CreateToken(dataUser.ID)
+	result, err := middlewares.CreateToken(dataUser.ID, data.Email)
 	if err != nil {
 		return "", err
 	}

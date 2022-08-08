@@ -28,14 +28,16 @@ func (cs *clientService) GetData(url string) (helpers.ResponseJSON, error) {
 	return result, nil
 }
 
-func (cs *clientService) Store(url string, reqBody []byte) error {
+func (cs *clientService) Store(url string, reqBody []byte) (helpers.ResponseJSON, error) {
+	var result helpers.ResponseJSON
 	resp, err := cs.cm.Post(url, reqBody)
 	if err != nil {
-		return err
+		return result, err
 	}
 
 	defer resp.Body.Close()
-	return nil
+	json.NewDecoder(resp.Body).Decode(&result)
+	return result, nil
 }
 
 func (cs *clientService) Update(url string, reqBody []byte) error {
