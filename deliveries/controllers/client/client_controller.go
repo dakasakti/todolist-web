@@ -122,7 +122,7 @@ func (cc *clientController) UpdateData(ctx echo.Context) error {
 	result, err := cc.cs.UpdatewithAuth(url, cookie.Value, reqBody)
 	if result.Status == 400 || err != nil {
 		return ctx.Render(http.StatusOK, "edit", map[string]interface{}{
-			"Data": result.Data,
+			"ErrorData": result.Data,
 		})
 	}
 
@@ -187,8 +187,6 @@ func (cc *clientController) Login(ctx echo.Context) error {
 	})
 
 	result, err := cc.cs.Store(url, reqBody)
-	fmt.Println(result.Message)
-	fmt.Println(result.Data)
 	if result.Status == 400 || err != nil {
 		return ctx.Render(http.StatusOK, "auth", map[string]interface{}{
 			"Data": result.Data,

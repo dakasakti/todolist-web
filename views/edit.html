@@ -11,12 +11,12 @@
       <form action="/posts/{{ .Data.id }}" method="POST">
         <div class="mb-3">
           <label for="description" class="form-label">Description</label>
-          <p class="text-danger">{{ .Data.description }}</p>
+          <p class="text-danger">{{ .ErrorData.description }}</p>
           <textarea class="form-control bg-transparent text-white" id="description" rows="5" name="description" autofocus="autofocus">{{ .Data.description }}</textarea>
         </div>
         <div class="mb-3">
           <label for="name" class="form-label">Name</label>
-          <p class="text-danger">{{ .Data.name }}</p>
+          <p class="text-danger">{{ .ErrorData.name }}</p>
           <input type="text" name="name" class="form-control text-white bg-transparent" id="name" placeholder="ditujukan kepada siapa" value="{{ .Data.name }}" />
         </div>
         <div class="mb-3">
