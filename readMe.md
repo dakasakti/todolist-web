@@ -26,6 +26,7 @@
 - Authentication JWT https://jwt.io
 - Auth Page https://github.com/sefyudem/Sliding-Sign-In-Sign-Up-Form
 - Dashboard https://getbootstrap.com
+- Page Error 404 https://github.com/idindrakusuma/simple-404-template
 
 ## Contributing
 

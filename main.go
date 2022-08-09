@@ -5,6 +5,7 @@ import (
 
 	"github.com/dakasakti/todolist-web/config"
 
+	"github.com/dakasakti/todolist-web/deliveries/helpers"
 	"github.com/dakasakti/todolist-web/deliveries/middlewares"
 	"github.com/dakasakti/todolist-web/deliveries/routes"
 
@@ -28,6 +29,7 @@ import (
 func main() {
 	server := echo.New()
 	middlewares.General(server)
+	server.HTTPErrorHandler = helpers.CustomHTTPErrorHandler
 
 	// database connection
 	db := config.InitDB(*config.GetConfig())
