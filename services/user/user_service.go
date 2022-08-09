@@ -72,3 +72,12 @@ func (us *userService) Login(data entities.LoginRequest) (string, error) {
 
 	return result, nil
 }
+
+func (us *userService) GetProfile(user_id uint) (entities.User, error) {
+	dataUser, err := us.um.Get(user_id)
+	if err != nil {
+		return dataUser, err
+	}
+
+	return dataUser, nil
+}

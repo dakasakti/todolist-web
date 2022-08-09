@@ -16,7 +16,7 @@
 
 ## Documentation Project
 
-- https://github.com/dakasakti/todolist
+- https://github.com/dakasakti/todolist-web
 
 ## Tech Stack
 

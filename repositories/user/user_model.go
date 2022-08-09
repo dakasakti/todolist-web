@@ -34,3 +34,13 @@ func (um *userModel) Login(email string) (entities.User, error) {
 
 	return result, nil
 }
+
+func (um *userModel) Get(user_id uint) (entities.User, error) {
+	var result entities.User
+	err := um.Db.Where("id = ?", user_id).First(&result)
+	if err.Error != nil {
+		return result, err.Error
+	}
+
+	return result, nil
+}

@@ -12,6 +12,7 @@ func UserPath(e *echo.Echo, uc uc.UserController) {
 	api := e.Group("/api")
 	api.POST("/register", uc.Register)
 	api.POST("/login", uc.Login)
+	api.GET("/profile", uc.Profile, middlewares.JWTSign())
 }
 
 func PostPath(e *echo.Echo, ps ps.PostController) {

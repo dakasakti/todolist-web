@@ -28,7 +28,7 @@ func CreateToken(id uint, email string) (string, error) {
 }
 
 func ExtractTokenUserId(e echo.Context) float64 {
-	user := e.Get("token").(*jwt.Token)
+	user := e.Get("user").(*jwt.Token)
 	if user.Valid {
 		claims := user.Claims.(jwt.MapClaims)
 		userId := claims["id"].(float64)
