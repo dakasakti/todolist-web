@@ -121,7 +121,9 @@ func (cc *clientController) UpdateData(ctx echo.Context) error {
 
 	result, err := cc.cs.UpdatewithAuth(url, cookie.Value, reqBody)
 	if result.Status == 400 || err != nil {
-		return ctx.Render(http.StatusBadRequest, "edit", result)
+		return ctx.Render(http.StatusOK, "edit", map[string]interface{}{
+			"Data": result.Data,
+		})
 	}
 
 	return ctx.Redirect(http.StatusFound, "/posts")
