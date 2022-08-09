@@ -11,8 +11,8 @@
       <a href="/posts/create" class="btn btn-primary">Create Task</a>
       <table class="table caption-top text-white">
         <caption>
-          List Task Users
-          <p>Nama User Login : {{ index .User.fullname }}</p>
+          List Task Users {{ $fullname := .User.fullname }}
+          <p>Nama User Login : {{ $fullname }}</p>
         </caption>
         <thead>
           <tr>
@@ -26,7 +26,7 @@
           </tr>
         </thead>
         <tbody>
-          {{ $fullname := .User.fullname }} {{ range $idx, $elem := .Data }}
+          {{ range $idx, $elem := .Data }}
           <tr class="align-middle">
             <th scope="row">{{ itterate $idx }}</th>
             <td>{{ $elem.description }}</td>

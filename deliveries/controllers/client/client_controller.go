@@ -78,7 +78,9 @@ func (cc *clientController) Store(ctx echo.Context) error {
 
 	result, err := cc.cs.StorewithAuth(url, cookie.Value, reqBody)
 	if result.Status == 400 || err != nil {
-		return ctx.Render(http.StatusBadRequest, "create", result)
+		return ctx.Render(http.StatusOK, "create", map[string]interface{}{
+			"Data": result.Data,
+		})
 	}
 
 	return ctx.Redirect(http.StatusFound, "/posts")
@@ -154,12 +156,7 @@ func (cc *clientController) Index(ctx echo.Context) error {
 	return ctx.Render(http.StatusOK, "auth", nil)
 }
 
-func (cc *clientController) StoreAuth(ctx echo.Context) error {
-	cookie, err := ctx.Cookie("token")
-	if err != nil {
-		return ctx.Redirect(http.StatusFound, "/")
-	}
-
+func (cc *clientController) Register(ctx echo.Context) error {
 	url := fmt.Sprintf("%s:%s/api/register", config.GetConfig().Address, config.GetConfig().Port)
 	reqBody, _ := json.Marshal(map[string]interface{}{
 		"fullname": ctx.FormValue("fullname"),
@@ -168,16 +165,19 @@ func (cc *clientController) StoreAuth(ctx echo.Context) error {
 		"password": ctx.FormValue("password"),
 	})
 
-	result, err := cc.cs.StorewithAuth(url, cookie.Value, reqBody)
+	result, err := cc.cs.Store(url, reqBody)
+	fmt.Println(result.Message)
+	fmt.Println(result.Data)
 	if result.Status == 400 || err != nil {
-		ctx.Redirect(http.StatusFound, "/")
-		return ctx.Render(http.StatusOK, "auth", result)
+		return ctx.Render(http.StatusOK, "auth", map[string]interface{}{
+			"ErrorData": result.Data,
+		})
 	}
 
 	return ctx.Redirect(http.StatusFound, "/")
 }
 
-func (cc *clientController) LoginAuth(ctx echo.Context) error {
+func (cc *clientController) Login(ctx echo.Context) error {
 	url := fmt.Sprintf("%s:%s/api/login", config.GetConfig().Address, config.GetConfig().Port)
 	reqBody, _ := json.Marshal(map[string]interface{}{
 		"email":    ctx.FormValue("email"),
@@ -185,8 +185,18 @@ func (cc *clientController) LoginAuth(ctx echo.Context) error {
 	})
 
 	result, err := cc.cs.Store(url, reqBody)
+	fmt.Println(result.Message)
+	fmt.Println(result.Data)
 	if result.Status == 400 || err != nil {
-		return ctx.Render(http.StatusBadRequest, "auth", result)
+		return ctx.Render(http.StatusOK, "auth", map[string]interface{}{
+			"Data": result.Data,
+		})
+	}
+
+	if result.Status == 401 || err != nil {
+		return ctx.Render(http.StatusOK, "auth", map[string]interface{}{
+			"Message": result.Message,
+		})
 	}
 
 	ctx.SetCookie(&http.Cookie{

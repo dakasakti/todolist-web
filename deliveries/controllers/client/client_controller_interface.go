@@ -12,7 +12,7 @@ type ClientController interface {
 
 	// Auth
 	Index(ctx echo.Context) error
-	StoreAuth(ctx echo.Context) error
-	LoginAuth(ctx echo.Context) error
+	Register(ctx echo.Context) error
+	Login(ctx echo.Context) error
 	Logout(ctx echo.Context) error
 }
