@@ -16,14 +16,17 @@
 
 ## Documentation Project
 
-- https://github.com/dakasakti/todolist
+- https://github.com/dakasakti/todolist-web
 
 ## Tech Stack
 
 - Programming Language (Go) https://go.dev
-- Framework Echo https://echo.labstack.com/
-- ORM Library Gorm (MySQL) https://gorm.io/
-- Authentication JWT https://jwt.io/
+- Framework Echo https://echo.labstack.com
+- ORM Library Gorm (MySQL) https://gorm.io
+- Authentication JWT https://jwt.io
+- Auth Page https://github.com/sefyudem/Sliding-Sign-In-Sign-Up-Form
+- Dashboard https://getbootstrap.com
+- Page Error 404 https://github.com/idindrakusuma/simple-404-template
 
 ## Contributing
 

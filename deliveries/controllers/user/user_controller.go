@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"github.com/dakasakti/todolist-web/deliveries/helpers"
+	"github.com/dakasakti/todolist-web/deliveries/middlewares"
 	"github.com/dakasakti/todolist-web/entities"
 	us "github.com/dakasakti/todolist-web/services/user"
 	"github.com/dakasakti/todolist-web/services/validation"
@@ -89,5 +90,24 @@ func (uc *userController) Login(ctx echo.Context) error {
 		Status:  200,
 		Message: "successfully logged in",
 		Data:    token,
+	})
+}
+
+func (uc *userController) Profile(ctx echo.Context) error {
+	user_id := uint(middlewares.ExtractTokenUserId(ctx))
+
+	data, err := uc.Us.GetProfile(uint(user_id))
+	if err != nil {
+		return ctx.JSON(404, helpers.ResponseJSON{
+			Status:  404,
+			Message: err.Error(),
+			Data:    nil,
+		})
+	}
+
+	return ctx.JSON(200, helpers.ResponseJSON{
+		Status:  200,
+		Message: "successfully retrieved",
+		Data:    data,
 	})
 }

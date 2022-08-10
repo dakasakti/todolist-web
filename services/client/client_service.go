@@ -24,26 +24,53 @@ func (cs *clientService) GetData(url string) (helpers.ResponseJSON, error) {
 
 	defer resp.Body.Close()
 	json.NewDecoder(resp.Body).Decode(&result)
-
 	return result, nil
 }
 
-func (cs *clientService) Store(url string, reqBody []byte) error {
-	resp, err := cs.cm.Post(url, reqBody)
+func (cs *clientService) GetDatawithAuth(url string, token string) (helpers.ResponseJSON, error) {
+	var result helpers.ResponseJSON
+	resp, err := cs.cm.GetwithAuth(url, token)
 	if err != nil {
-		return err
+		return result, err
 	}
 
 	defer resp.Body.Close()
-	return nil
+	json.NewDecoder(resp.Body).Decode(&result)
+	return result, nil
 }
 
-func (cs *clientService) Update(url string, reqBody []byte) error {
-	resp, err := cs.cm.Put(url, reqBody)
+func (cs *clientService) Store(url string, reqBody []byte) (helpers.ResponseJSON, error) {
+	var result helpers.ResponseJSON
+	resp, err := cs.cm.Post(url, reqBody)
 	if err != nil {
-		return err
+		return result, err
 	}
 
 	defer resp.Body.Close()
-	return nil
+	json.NewDecoder(resp.Body).Decode(&result)
+	return result, nil
+}
+
+func (cs *clientService) StorewithAuth(url string, token string, reqBody []byte) (helpers.ResponseJSON, error) {
+	var result helpers.ResponseJSON
+	resp, err := cs.cm.PostwithAuth(url, token, reqBody)
+	if err != nil {
+		return result, err
+	}
+
+	defer resp.Body.Close()
+	json.NewDecoder(resp.Body).Decode(&result)
+	return result, nil
+}
+
+func (cs *clientService) UpdatewithAuth(url string, token string, reqBody []byte) (helpers.ResponseJSON, error) {
+	var result helpers.ResponseJSON
+	resp, err := cs.cm.PutwithAuth(url, token, reqBody)
+	if err != nil {
+		return result, err
+	}
+
+	defer resp.Body.Close()
+	json.NewDecoder(resp.Body).Decode(&result)
+	return result, nil
 }

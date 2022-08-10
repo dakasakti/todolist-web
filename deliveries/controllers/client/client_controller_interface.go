@@ -9,4 +9,10 @@ type ClientController interface {
 	Edit(ctx echo.Context) error
 	UpdateData(ctx echo.Context) error
 	UpdateMark(ctx echo.Context) error
+
+	// Auth
+	Index(ctx echo.Context) error
+	Register(ctx echo.Context) error
+	Login(ctx echo.Context) error
+	Logout(ctx echo.Context) error
 }

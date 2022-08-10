@@ -6,12 +6,54 @@
   </head>
   <body class="bg-dark text-white">
     {{ template "_navbar" }}
+    <!-- Toast -->
+    {{ if eq .Message "successfully logged in" }}
+    <div aria-live="polite" aria-atomic="true" class="position-relative">
+      <div class="toast-container position-absolute top-0 end-0 p-3">
+        <div class="toast show" role="alert" aria-live="assertive">
+          <div class="toast-header bg-white">
+            <strong class="me-auto">Message</strong>
+            <small class="text-muted">just now</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body bg-success">{{ .Message }}</div>
+        </div>
+      </div>
+    </div>
+    {{ else if eq .Message "successfully created" }}
+    <div aria-live="polite" aria-atomic="true" class="position-relative">
+      <div class="toast-container position-absolute top-0 end-0 p-3">
+        <div class="toast show" role="alert" aria-live="assertive">
+          <div class="toast-header bg-white">
+            <strong class="me-auto">Message</strong>
+            <small class="text-muted">just now</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body bg-success">{{ .Message }}</div>
+        </div>
+      </div>
+    </div>
+    {{ else if eq .Message "successfully updated" }}
+    <div aria-live="polite" aria-atomic="true" class="position-relative">
+      <div class="toast-container position-absolute top-0 end-0 p-3">
+        <div class="toast show" role="alert" aria-live="assertive">
+          <div class="toast-header bg-white">
+            <strong class="me-auto">Message</strong>
+            <small class="text-muted">just now</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body bg-success">{{ .Message }}</div>
+        </div>
+      </div>
+    </div>
+    {{ end }}
     <div class="container">
       <h2 class="my-3">Aplikasi Tasking</h2>
       <a href="/posts/create" class="btn btn-primary">Create Task</a>
       <table class="table caption-top text-white">
         <caption>
-          List Task Users
+          List Task Users {{ $fullname := .User.fullname }}
+          <p>Nama User Login : {{ $fullname }}</p>
         </caption>
         <thead>
           <tr>
@@ -32,7 +74,7 @@
             <td>{{ $elem.name }}</td>
             <td>{{ $elem.deadline }}</td>
             <td>{{ $elem.author.fullname }}</td>
-            {{ if eq $elem.status "Done"}}
+            {{ if eq $elem.author.fullname $fullname }} {{ if eq $elem.status "Done"}}
             <td><button class="btn btn-success">{{ $elem.status }}</button></td>
             {{ else }}
             <td>
@@ -44,10 +86,25 @@
             <td>
               <a href="/posts/{{ $elem.id }}/edit" class="btn btn-primary">Edit</a>
             </td>
+            {{ else }} {{ if eq $elem.status "Done"}}
+            <td><button class="btn btn-success disabled">{{ $elem.status }}</button></td>
+            {{ else }}
+            <td>
+              <form action="/posts/{{ $elem.id }}/mark" method="POST">
+                <button class="btn btn-warning disabled">Mark is Done</button>
+              </form>
+            </td>
+            {{ end }}
+            <td>
+              <a href="#" class="btn btn-danger disabled">Edit</a>
+            </td>
+            {{ end }}
           </tr>
           {{ end }}
         </tbody>
       </table>
+
+      <p></p>
     </div>
     {{ template "_script" }}
   </body>

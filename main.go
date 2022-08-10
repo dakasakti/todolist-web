@@ -5,6 +5,7 @@ import (
 
 	"github.com/dakasakti/todolist-web/config"
 
+	"github.com/dakasakti/todolist-web/deliveries/helpers"
 	"github.com/dakasakti/todolist-web/deliveries/middlewares"
 	"github.com/dakasakti/todolist-web/deliveries/routes"
 
@@ -22,12 +23,16 @@ import (
 	pc "github.com/dakasakti/todolist-web/deliveries/controllers/post"
 	uc "github.com/dakasakti/todolist-web/deliveries/controllers/user"
 
+	"github.com/gorilla/sessions"
+	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 )
 
 func main() {
 	server := echo.New()
 	middlewares.General(server)
+	server.HTTPErrorHandler = helpers.CustomHTTPErrorHandler
+	server.Use(session.Middleware(sessions.NewCookieStore([]byte(config.GetConfig().Secret_JWT))))
 
 	// database connection
 	db := config.InitDB(*config.GetConfig())

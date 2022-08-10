@@ -11,15 +11,17 @@
       <form action="/posts" method="POST">
         <div class="mb-3">
           <label for="description" class="form-label">Description</label>
-          <textarea class="form-control bg-transparent text-white" id="description" rows="5" name="description" autofocus></textarea>
+          <p class="text-danger">{{ .Data.description }}</p>
+          <textarea class="form-control bg-transparent text-white" id="description" rows="5" name="description" autofocus required></textarea>
         </div>
         <div class="mb-3">
           <label for="name" class="form-label">Name</label>
-          <input type="text" name="name" class="form-control text-white bg-transparent" id="name" placeholder="ditujukan kepada siapa" />
+          <p class="text-danger">{{ .Data.name }}</p>
+          <input type="text" name="name" class="form-control text-white bg-transparent" id="name" placeholder="ditujukan kepada siapa" required />
         </div>
         <div class="mb-3">
           <label for="deadline" class="form-label">Deadline</label>
-          <input type="date" name="deadline" class="form-control bg-transparent text-white" id="deadline" />
+          <input type="date" name="deadline" class="form-control bg-transparent text-white" id="deadline" required />
         </div>
         <button type="submit" class="btn btn-success">Submit</button>
         <a href="/posts" class="btn btn-primary">List Task</a>
