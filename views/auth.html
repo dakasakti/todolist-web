@@ -14,7 +14,11 @@
         <div class="signin-signup">
           <form action="/login" method="POST" class="sign-in-form">
             <h2 class="title">Sign in</h2>
+            {{ if eq .Message "successfully created" }}
             <p class="text-danger">{{ .Message }}</p>
+            {{ else if eq .Message "username or password is wrong" }}
+            <p class="text-danger">{{ .Message }}</p>
+            {{ end }}
             <p class="text-danger">{{ .Data.email }}</p>
             <div class="input-field">
               <i class="fas fa-user"></i>

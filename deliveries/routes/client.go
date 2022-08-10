@@ -16,6 +16,7 @@ func ClientPath(e *echo.Echo, cc client.ClientController) {
 
 	// Auth
 	e.GET("/", cc.Index)
+	e.GET("/register", cc.Index)
 	e.POST("/register", cc.Register)
 	e.GET("/login", cc.Index)
 	e.POST("/login", cc.Login)

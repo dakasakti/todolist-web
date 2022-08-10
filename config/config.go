@@ -7,6 +7,7 @@ import (
 )
 
 type AppConfig struct {
+	Secret_JWT  string
 	Address     string
 	Port        string
 	DB_Driver   string
@@ -33,6 +34,7 @@ func GetConfig() *AppConfig {
 
 func InitConfig() *AppConfig {
 	var defaultConfig AppConfig
+	defaultConfig.Secret_JWT = getEnv("SECRET_JWT", "secret")
 	defaultConfig.Address = getEnv("ADDRESS", "http://localhost")
 	defaultConfig.Port = getEnv("PORT", "3000")
 	defaultConfig.DB_Driver = getEnv("DB_DRIVER", "mysql")

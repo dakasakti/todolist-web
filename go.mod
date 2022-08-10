@@ -5,6 +5,12 @@ go 1.17
 require gorm.io/driver/mysql v1.3.5
 
 require (
+	github.com/gorilla/context v1.1.1 // indirect
+	github.com/gorilla/securecookie v1.1.1 // indirect
+	github.com/gorilla/sessions v1.2.1 // indirect
+)
+
+require (
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
 	github.com/go-playground/validator/v10 v10.11.0
@@ -17,6 +23,7 @@ require (
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
+	github.com/labstack/echo-contrib v0.13.0
 	github.com/labstack/echo/v4 v4.7.2
 	github.com/labstack/gommon v0.3.1
 	github.com/mattn/go-colorable v0.1.12 // indirect

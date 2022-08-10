@@ -19,7 +19,7 @@ type User struct {
 
 type UserRequest struct {
 	Fullname string `json:"fullname" form:"fullname" validate:"required,min=5,max=25"`
-	Phone    string `json:"phone" form:"phone" validate:"required,e164,min=13,max=20"`
+	Phone    string `json:"phone" form:"phone" validate:"required,e164,min=10,max=20"`
 	Email    string `json:"email" form:"email" validate:"required,lowercase,email"`
 	Password string `json:"password" form:"password" validate:"required,min=8,max=50"`
 }

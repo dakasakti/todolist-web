@@ -3,7 +3,7 @@ package middlewares
 import (
 	"time"
 
-	"github.com/dakasakti/todolist-web/constants"
+	"github.com/dakasakti/todolist-web/config"
 
 	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
@@ -12,7 +12,7 @@ import (
 
 func JWTSign() echo.MiddlewareFunc {
 	return middleware.JWTWithConfig(middleware.JWTConfig{
-		SigningKey:    []byte(constants.SECRET_JWT),
+		SigningKey:    []byte(config.GetConfig().Secret_JWT),
 		SigningMethod: jwt.SigningMethodHS256.Name,
 	})
 }
@@ -24,7 +24,7 @@ func CreateToken(id uint, email string) (string, error) {
 	claims["email"] = email
 	claims["expired"] = time.Now().Add(time.Hour * 48).Unix()
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString([]byte(constants.SECRET_JWT))
+	return token.SignedString([]byte(config.GetConfig().Secret_JWT))
 }
 
 func ExtractTokenUserId(e echo.Context) float64 {
@@ -41,7 +41,7 @@ func ExtractTokenUserId(e echo.Context) float64 {
 func ExtractToken(value string) float64 {
 	claims := jwt.MapClaims{}
 	token, _ := jwt.ParseWithClaims(value, claims, func(token *jwt.Token) (interface{}, error) {
-		return []byte(constants.SECRET_JWT), nil
+		return []byte(config.GetConfig().Secret_JWT), nil
 	})
 
 	if token.Valid {

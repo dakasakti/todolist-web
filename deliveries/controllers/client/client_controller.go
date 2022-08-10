@@ -9,6 +9,8 @@ import (
 	"github.com/dakasakti/todolist-web/config"
 	"github.com/dakasakti/todolist-web/deliveries/middlewares"
 	"github.com/dakasakti/todolist-web/services/client"
+	"github.com/gorilla/sessions"
+	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 )
 
@@ -34,6 +36,7 @@ func (cc *clientController) GetAll(ctx echo.Context) error {
 	url := fmt.Sprintf("%s:%s/api/posts", config.GetConfig().Address, config.GetConfig().Port)
 	result, err := cc.cs.GetData(url)
 	if result.Status == 400 || err != nil {
+		fmt.Println(result.Message)
 		return ctx.Render(http.StatusBadRequest, "index", nil)
 	}
 
@@ -43,9 +46,11 @@ func (cc *clientController) GetAll(ctx echo.Context) error {
 		return ctx.Render(http.StatusBadRequest, "index", nil)
 	}
 
+	sess, _ := session.Get("session", ctx)
 	return ctx.Render(http.StatusOK, "index", map[string]interface{}{
-		"Data": result.Data,
-		"User": dataUser.Data,
+		"Data":    result.Data,
+		"User":    dataUser.Data,
+		"Message": sess.Values["message"],
 	})
 }
 
@@ -78,11 +83,20 @@ func (cc *clientController) Store(ctx echo.Context) error {
 
 	result, err := cc.cs.StorewithAuth(url, cookie.Value, reqBody)
 	if result.Status == 400 || err != nil {
+		fmt.Println(result.Message)
 		return ctx.Render(http.StatusOK, "create", map[string]interface{}{
 			"Data": result.Data,
 		})
 	}
 
+	sess, _ := session.Get("session", ctx)
+	sess.Options = &sessions.Options{
+		Path:   "/posts",
+		MaxAge: 5,
+	}
+
+	sess.Values["message"] = result.Message
+	sess.Save(ctx.Request(), ctx.Response())
 	return ctx.Redirect(http.StatusFound, "/posts")
 }
 
@@ -100,10 +114,13 @@ func (cc *clientController) Edit(ctx echo.Context) error {
 	url := fmt.Sprintf("%s:%s/api/posts/%s", config.GetConfig().Address, config.GetConfig().Port, ctx.Param("id"))
 	result, err := cc.cs.GetData(url)
 	if result.Status == 400 || err != nil {
+		fmt.Println(result.Message)
 		return ctx.Render(http.StatusBadRequest, "index", nil)
 	}
 
-	return ctx.Render(http.StatusOK, "edit", result)
+	return ctx.Render(http.StatusOK, "edit", map[string]interface{}{
+		"Data": result.Data,
+	})
 }
 
 func (cc *clientController) UpdateData(ctx echo.Context) error {
@@ -121,11 +138,20 @@ func (cc *clientController) UpdateData(ctx echo.Context) error {
 
 	result, err := cc.cs.UpdatewithAuth(url, cookie.Value, reqBody)
 	if result.Status == 400 || err != nil {
+		fmt.Println(result.Message)
 		return ctx.Render(http.StatusOK, "edit", map[string]interface{}{
-			"ErrorData": result.Data,
+			"Data": result.Data,
 		})
 	}
 
+	sess, _ := session.Get("session", ctx)
+	sess.Options = &sessions.Options{
+		Path:   "/posts",
+		MaxAge: 5,
+	}
+
+	sess.Values["message"] = result.Message
+	sess.Save(ctx.Request(), ctx.Response())
 	return ctx.Redirect(http.StatusFound, "/posts")
 }
 
@@ -138,9 +164,18 @@ func (cc *clientController) UpdateMark(ctx echo.Context) error {
 	url := fmt.Sprintf("%s:%s/api/posts/%s/mark", config.GetConfig().Address, config.GetConfig().Port, ctx.Param("id"))
 	result, err := cc.cs.UpdatewithAuth(url, cookie.Value, nil)
 	if result.Status == 400 || err != nil {
-		return ctx.Render(http.StatusBadRequest, "index", result)
+		fmt.Println(result.Message)
+		return ctx.Render(http.StatusOK, "index", result)
 	}
 
+	sess, _ := session.Get("session", ctx)
+	sess.Options = &sessions.Options{
+		Path:   "/posts",
+		MaxAge: 5,
+	}
+
+	sess.Values["message"] = result.Message
+	sess.Save(ctx.Request(), ctx.Response())
 	return ctx.Redirect(http.StatusFound, "/posts")
 }
 
@@ -155,7 +190,10 @@ func (cc *clientController) Index(ctx echo.Context) error {
 		return ctx.Redirect(http.StatusFound, "/posts")
 	}
 
-	return ctx.Render(http.StatusOK, "auth", nil)
+	sess, _ := session.Get("session", ctx)
+	return ctx.Render(http.StatusOK, "auth", map[string]interface{}{
+		"Message": sess.Values["message"],
+	})
 }
 
 func (cc *clientController) Register(ctx echo.Context) error {
@@ -168,14 +206,21 @@ func (cc *clientController) Register(ctx echo.Context) error {
 	})
 
 	result, err := cc.cs.Store(url, reqBody)
-	fmt.Println(result.Message)
-	fmt.Println(result.Data)
 	if result.Status == 400 || err != nil {
+		fmt.Println(result.Message)
 		return ctx.Render(http.StatusOK, "auth", map[string]interface{}{
 			"ErrorData": result.Data,
 		})
 	}
 
+	sess, _ := session.Get("session", ctx)
+	sess.Options = &sessions.Options{
+		Path:   "/",
+		MaxAge: 10,
+	}
+
+	sess.Values["message"] = result.Message
+	sess.Save(ctx.Request(), ctx.Response())
 	return ctx.Redirect(http.StatusFound, "/")
 }
 
@@ -188,16 +233,27 @@ func (cc *clientController) Login(ctx echo.Context) error {
 
 	result, err := cc.cs.Store(url, reqBody)
 	if result.Status == 400 || err != nil {
+		fmt.Println(result.Message)
 		return ctx.Render(http.StatusOK, "auth", map[string]interface{}{
 			"Data": result.Data,
 		})
 	}
 
 	if result.Status == 401 || err != nil {
+		fmt.Println(result.Message)
 		return ctx.Render(http.StatusOK, "auth", map[string]interface{}{
 			"Message": result.Message,
 		})
 	}
+
+	sess, _ := session.Get("session", ctx)
+	sess.Options = &sessions.Options{
+		Path:   "/posts",
+		MaxAge: 5,
+	}
+
+	sess.Values["message"] = result.Message
+	sess.Save(ctx.Request(), ctx.Response())
 
 	ctx.SetCookie(&http.Cookie{
 		Name:    "token",
