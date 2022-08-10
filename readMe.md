@@ -14,6 +14,13 @@
 - Fitur Pencatat Apakah Task Sudah Selesai
 - Kita bisa menandai apakah suatu task sudah selesai dilakukan atau belum.
 
+## View Project
+![login](https://user-images.githubusercontent.com/88183888/183925090-22abef76-f4b5-49b2-a12b-393c83322a63.jpg)
+![dashboard](https://user-images.githubusercontent.com/88183888/183925251-f2c7da75-e35f-4a8d-ac78-58c339f950a1.jpg)
+![create-task](https://user-images.githubusercontent.com/88183888/183925278-f1a47720-1e3c-4fad-92c9-0e6252bd1a30.jpg)
+![edit-task](https://user-images.githubusercontent.com/88183888/183925295-5402f7a9-219f-47ea-8724-13faf9a5a34a.jpg)
+
+
 ## Documentation Project
 
 - https://github.com/dakasakti/todolist-web
