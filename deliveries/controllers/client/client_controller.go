@@ -25,12 +25,12 @@ func NewClientController(cs client.ClientService) *clientController {
 func (cc *clientController) GetAll(ctx echo.Context) error {
 	cookie, err := ctx.Cookie("token")
 	if err != nil {
-		return ctx.Redirect(http.StatusFound, "/")
+		return ctx.Redirect(303, "/")
 	}
 
 	user_id := middlewares.ExtractToken(cookie.Value)
 	if user_id == 0 {
-		return ctx.Redirect(http.StatusFound, "/login")
+		return ctx.Redirect(303, "/login")
 	}
 
 	url := fmt.Sprintf("%s:%s/api/posts", config.GetConfig().Address, config.GetConfig().Port)
@@ -57,12 +57,12 @@ func (cc *clientController) GetAll(ctx echo.Context) error {
 func (cc *clientController) Create(ctx echo.Context) error {
 	cookie, err := ctx.Cookie("token")
 	if err != nil {
-		return ctx.Redirect(http.StatusFound, "/")
+		return ctx.Redirect(303, "/")
 	}
 
 	user_id := middlewares.ExtractToken(cookie.Value)
 	if user_id == 0 {
-		return ctx.Redirect(http.StatusFound, "/login")
+		return ctx.Redirect(303, "/login")
 	}
 
 	return ctx.Render(http.StatusOK, "create", nil)
@@ -71,7 +71,7 @@ func (cc *clientController) Create(ctx echo.Context) error {
 func (cc *clientController) Store(ctx echo.Context) error {
 	cookie, err := ctx.Cookie("token")
 	if err != nil {
-		return ctx.Redirect(http.StatusFound, "/")
+		return ctx.Redirect(303, "/")
 	}
 
 	url := fmt.Sprintf("%s:%s/api/posts", config.GetConfig().Address, config.GetConfig().Port)
@@ -97,18 +97,18 @@ func (cc *clientController) Store(ctx echo.Context) error {
 
 	sess.Values["message"] = result.Message
 	sess.Save(ctx.Request(), ctx.Response())
-	return ctx.Redirect(http.StatusFound, "/posts")
+	return ctx.Redirect(303, "/posts")
 }
 
 func (cc *clientController) Edit(ctx echo.Context) error {
 	cookie, err := ctx.Cookie("token")
 	if err != nil {
-		return ctx.Redirect(http.StatusFound, "/")
+		return ctx.Redirect(303, "/")
 	}
 
 	user_id := middlewares.ExtractToken(cookie.Value)
 	if user_id == 0 {
-		return ctx.Redirect(http.StatusFound, "/login")
+		return ctx.Redirect(303, "/login")
 	}
 
 	url := fmt.Sprintf("%s:%s/api/posts/%s", config.GetConfig().Address, config.GetConfig().Port, ctx.Param("id"))
@@ -126,7 +126,7 @@ func (cc *clientController) Edit(ctx echo.Context) error {
 func (cc *clientController) UpdateData(ctx echo.Context) error {
 	cookie, err := ctx.Cookie("token")
 	if err != nil {
-		return ctx.Redirect(http.StatusFound, "/")
+		return ctx.Redirect(303, "/")
 	}
 
 	url := fmt.Sprintf("%s:%s/api/posts/%s", config.GetConfig().Address, config.GetConfig().Port, ctx.Param("id"))
@@ -152,13 +152,13 @@ func (cc *clientController) UpdateData(ctx echo.Context) error {
 
 	sess.Values["message"] = result.Message
 	sess.Save(ctx.Request(), ctx.Response())
-	return ctx.Redirect(http.StatusFound, "/posts")
+	return ctx.Redirect(303, "/posts")
 }
 
 func (cc *clientController) UpdateMark(ctx echo.Context) error {
 	cookie, err := ctx.Cookie("token")
 	if err != nil {
-		return ctx.Redirect(http.StatusFound, "/")
+		return ctx.Redirect(303, "/")
 	}
 
 	url := fmt.Sprintf("%s:%s/api/posts/%s/mark", config.GetConfig().Address, config.GetConfig().Port, ctx.Param("id"))
@@ -176,7 +176,7 @@ func (cc *clientController) UpdateMark(ctx echo.Context) error {
 
 	sess.Values["message"] = result.Message
 	sess.Save(ctx.Request(), ctx.Response())
-	return ctx.Redirect(http.StatusFound, "/posts")
+	return ctx.Redirect(303, "/posts")
 }
 
 func (cc *clientController) Index(ctx echo.Context) error {
@@ -187,7 +187,7 @@ func (cc *clientController) Index(ctx echo.Context) error {
 
 	user_id := middlewares.ExtractToken(cookie.Value)
 	if user_id != 0 {
-		return ctx.Redirect(http.StatusFound, "/posts")
+		return ctx.Redirect(303, "/posts")
 	}
 
 	sess, _ := session.Get("session", ctx)
@@ -221,7 +221,7 @@ func (cc *clientController) Register(ctx echo.Context) error {
 
 	sess.Values["message"] = result.Message
 	sess.Save(ctx.Request(), ctx.Response())
-	return ctx.Redirect(http.StatusFound, "/")
+	return ctx.Redirect(303, "/")
 }
 
 func (cc *clientController) Login(ctx echo.Context) error {
@@ -261,7 +261,7 @@ func (cc *clientController) Login(ctx echo.Context) error {
 		Expires: time.Now().Add(time.Minute * 5),
 	})
 
-	return ctx.Redirect(http.StatusFound, "/posts")
+	return ctx.Redirect(303, "/posts")
 }
 
 func (cc *clientController) Logout(ctx echo.Context) error {
@@ -271,5 +271,5 @@ func (cc *clientController) Logout(ctx echo.Context) error {
 		MaxAge: -1,
 	})
 
-	return ctx.Redirect(http.StatusFound, "/")
+	return ctx.Redirect(303, "/")
 }
