@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"os"
 	"sync"
+
+	"gorm.io/gorm"
 )
 
 type AppConfig struct {
@@ -37,12 +39,12 @@ func InitConfig() *AppConfig {
 	defaultConfig.Secret_JWT = getEnv("SECRET_JWT", "secret")
 	defaultConfig.Address = getEnv("ADDRESS", "http://localhost")
 	defaultConfig.Port = getEnv("PORT", "3000")
-	defaultConfig.DB_Driver = getEnv("DB_DRIVER", "mysql")
+	defaultConfig.DB_Driver = getEnv("DB_DRIVER", "postgres")
 	defaultConfig.DB_Name = getEnv("DB_NAME", "todolist")
 	defaultConfig.DB_Address = getEnv("DB_ADDRESS", "localhost")
-	defaultConfig.DB_Port = getEnv("DB_PORT", "3307")
-	defaultConfig.DB_Username = getEnv("DB_USERNAME", "root")
-	defaultConfig.DB_Password = getEnv("DB_PASSWORD", "")
+	defaultConfig.DB_Port = getEnv("DB_PORT", "5432")
+	defaultConfig.DB_Username = getEnv("DB_USERNAME", "postgres")
+	defaultConfig.DB_Password = getEnv("DB_PASSWORD", "admin")
 
 	fmt.Println(defaultConfig)
 	return &defaultConfig
@@ -55,4 +57,16 @@ func getEnv(key, fallback string) string {
 	}
 
 	return fallback
+}
+
+func Database() *gorm.DB {
+	config := GetConfig()
+	switch config.DB_Driver {
+	case "mysql":
+		return InitMySQL(*config)
+	case "postgres":
+		return InitPostgreSQL(*config)
+	default:
+		return nil
+	}
 }
