@@ -35,7 +35,7 @@ func main() {
 	server.Use(session.Middleware(sessions.NewCookieStore([]byte(config.GetConfig().Secret_JWT))))
 
 	// database connection
-	db := config.InitDB(*config.GetConfig())
+	db := config.Database()
 	config.AutoMigrate(db)
 
 	// models
