@@ -1,5 +1,6 @@
 module github.com/dakasakti/todolist-web
 
+// +heroku goVersion go1.17
 go 1.17
 
 require gorm.io/driver/mysql v1.3.5
