@@ -33,14 +33,14 @@ func (cc *clientController) GetAll(ctx echo.Context) error {
 		return ctx.Redirect(303, "/login")
 	}
 
-	url := fmt.Sprintf("%s:%s/api/posts", config.GetConfig().Address, config.GetConfig().Port)
+	url := fmt.Sprintf("%s:%s/api/posts", config.GetConfig().Address, config.GetConfig().Ports)
 	result, err := cc.cs.GetData(url)
 	if result.Status == 400 || err != nil {
 		fmt.Println(result.Message)
 		return ctx.Render(http.StatusBadRequest, "index", nil)
 	}
 
-	url = fmt.Sprintf("%s:%s/api/profile", config.GetConfig().Address, config.GetConfig().Port)
+	url = fmt.Sprintf("%s:%s/api/profile", config.GetConfig().Address, config.GetConfig().Ports)
 	dataUser, err := cc.cs.GetDatawithAuth(url, cookie.Value)
 	if dataUser.Status == 400 || err != nil {
 		return ctx.Render(http.StatusBadRequest, "index", nil)
@@ -74,7 +74,7 @@ func (cc *clientController) Store(ctx echo.Context) error {
 		return ctx.Redirect(303, "/")
 	}
 
-	url := fmt.Sprintf("%s:%s/api/posts", config.GetConfig().Address, config.GetConfig().Port)
+	url := fmt.Sprintf("%s:%s/api/posts", config.GetConfig().Address, config.GetConfig().Ports)
 	reqBody, _ := json.Marshal(map[string]interface{}{
 		"description": ctx.FormValue("description"),
 		"name":        ctx.FormValue("name"),
@@ -111,7 +111,7 @@ func (cc *clientController) Edit(ctx echo.Context) error {
 		return ctx.Redirect(303, "/login")
 	}
 
-	url := fmt.Sprintf("%s:%s/api/posts/%s", config.GetConfig().Address, config.GetConfig().Port, ctx.Param("id"))
+	url := fmt.Sprintf("%s:%s/api/posts/%s", config.GetConfig().Address, config.GetConfig().Ports, ctx.Param("id"))
 	result, err := cc.cs.GetData(url)
 	if result.Status == 400 || err != nil {
 		fmt.Println(result.Message)
@@ -129,7 +129,7 @@ func (cc *clientController) UpdateData(ctx echo.Context) error {
 		return ctx.Redirect(303, "/")
 	}
 
-	url := fmt.Sprintf("%s:%s/api/posts/%s", config.GetConfig().Address, config.GetConfig().Port, ctx.Param("id"))
+	url := fmt.Sprintf("%s:%s/api/posts/%s", config.GetConfig().Address, config.GetConfig().Ports, ctx.Param("id"))
 	reqBody, _ := json.Marshal(map[string]interface{}{
 		"description": ctx.FormValue("description"),
 		"name":        ctx.FormValue("name"),
@@ -161,7 +161,7 @@ func (cc *clientController) UpdateMark(ctx echo.Context) error {
 		return ctx.Redirect(303, "/")
 	}
 
-	url := fmt.Sprintf("%s:%s/api/posts/%s/mark", config.GetConfig().Address, config.GetConfig().Port, ctx.Param("id"))
+	url := fmt.Sprintf("%s:%s/api/posts/%s/mark", config.GetConfig().Address, config.GetConfig().Ports, ctx.Param("id"))
 	result, err := cc.cs.UpdatewithAuth(url, cookie.Value, nil)
 	if result.Status == 400 || err != nil {
 		fmt.Println(result.Message)
@@ -197,7 +197,7 @@ func (cc *clientController) Index(ctx echo.Context) error {
 }
 
 func (cc *clientController) Register(ctx echo.Context) error {
-	url := fmt.Sprintf("%s:%s/api/register", config.GetConfig().Address, config.GetConfig().Port)
+	url := fmt.Sprintf("%s:%s/api/register", config.GetConfig().Address, config.GetConfig().Ports)
 	reqBody, _ := json.Marshal(map[string]interface{}{
 		"fullname": ctx.FormValue("fullname"),
 		"phone":    ctx.FormValue("phone"),
@@ -225,7 +225,7 @@ func (cc *clientController) Register(ctx echo.Context) error {
 }
 
 func (cc *clientController) Login(ctx echo.Context) error {
-	url := fmt.Sprintf("%s:%s/api/login", config.GetConfig().Address, config.GetConfig().Port)
+	url := fmt.Sprintf("%s:%s/api/login", config.GetConfig().Address, config.GetConfig().Ports)
 	reqBody, _ := json.Marshal(map[string]interface{}{
 		"email":    ctx.FormValue("email"),
 		"password": ctx.FormValue("password"),
