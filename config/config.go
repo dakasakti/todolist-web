@@ -40,7 +40,7 @@ func InitConfig() *AppConfig {
 	defaultConfig.Secret_JWT = getEnv("SECRET_JWT", "secret")
 	defaultConfig.Address = getEnv("ADDRESS", "http://localhost")
 	defaultConfig.Port = getEnv("PORT", "3000")
-	defaultConfig.Port = getEnv("PORTS", "443")
+	defaultConfig.Ports = getEnv("PORTS", "443")
 	defaultConfig.DB_Driver = getEnv("DB_DRIVER", "postgres")
 	defaultConfig.DB_Name = getEnv("DB_NAME", "todolist")
 	defaultConfig.DB_Address = getEnv("DB_ADDRESS", "localhost")
