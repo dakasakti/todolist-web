@@ -29,7 +29,7 @@ func InitMySQL(config AppConfig) *gorm.DB {
 }
 
 func InitPostgreSQL(config AppConfig) *gorm.DB {
-	conString := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Jakarta",
+	conString := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=require TimeZone=Asia/Jakarta",
 		config.DB_Address,
 		config.DB_Username,
 		config.DB_Password,
